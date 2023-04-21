@@ -15,6 +15,7 @@ public class Profesor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
 	private String apellido1;
@@ -123,12 +124,9 @@ public class Profesor implements Serializable {
 
 		return valoracionmateria;
 	}
-
 	@Override
 	public String toString() {
-		return nombre+ " "+apellido1; 
+		return nombre+" "+apellido1;
 	}
 
-	
-	
 }

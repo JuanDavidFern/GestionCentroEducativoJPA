@@ -66,16 +66,35 @@ public class FichaEstudianteView extends JPanel {
 	
 	public Valoracionmateria guardar() {
 		Valoracionmateria vm = new Valoracionmateria();
-		vm.setEstudiante(estudiante);
-		vm.setMateria(materia);
-		vm.setProfesor(profesor);
-		if(jtfNota.getText().isEmpty())
-			vm = null;
-		else
-			vm.setValoracion(Float.parseFloat(jtfNota.getText()));
-		if(vm != null)
-			vm.setId(ValoracionMateriaController.notaEstudianteMateriaProfesor(this.estudiante, this.profesor, this.materia).getId());
+		Valoracionmateria m = ValoracionMateriaController.notaEstudianteMateriaProfesor(this.estudiante, this.profesor, this.materia);
+		if(m != null) {
+			vm.setEstudiante(estudiante);
+			vm.setMateria(materia);
+			vm.setProfesor(profesor);
+			if(!jtfNota.getText().isEmpty())
+				vm.setValoracion(Float.parseFloat(jtfNota.getText()));
+			else
+				vm.setValoracion(-1);
+			vm.setId(m.getId());
+		}
+		else {
+			vm.setEstudiante(estudiante);
+			vm.setMateria(materia);
+			vm.setProfesor(profesor);
+			if(!jtfNota.getText().isEmpty())
+				vm.setValoracion(Float.parseFloat(jtfNota.getText()));
+			else
+				vm.setValoracion(-1);
+		}
 		return vm;
 	}
+
+	@Override
+	public String toString() {
+		return 	estudiante.getNombre() + " " + materia.getNombre()
+				+ " " + profesor.getNombre();
+	}
+	
+	
 
 }

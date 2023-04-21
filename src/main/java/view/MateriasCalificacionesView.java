@@ -27,11 +27,15 @@ public class MateriasCalificacionesView extends JPanel {
 	
 	private JComboBox<Profesor> jcbProfesor;
 	private JComboBox<Materia> jcbMateria;
+	private JPanel panelACargar;
+	private List<FichaEstudianteView> vm;
 	/**
 	 * Create the panel.
 	 */
 	public MateriasCalificacionesView() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
+//		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0};
+//		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0};
 //		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0};
 //		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0};
 //		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0};
@@ -92,7 +96,35 @@ public class MateriasCalificacionesView extends JPanel {
 		gbc_btnNewButton.gridy = 2;
 		add(btnNewButton, gbc_btnNewButton);
 		
+		panelACargar = new JPanel();
+		GridBagConstraints gbc_panelACargar = new GridBagConstraints();
+		gbc_panelACargar.weighty = 1.0;
+		gbc_panelACargar.gridwidth = 3;
+		gbc_panelACargar.insets = new Insets(0, 0, 0, 5);
+		gbc_panelACargar.fill = GridBagConstraints.BOTH;
+		gbc_panelACargar.gridx = 0;
+		gbc_panelACargar.gridy = 3;
+		add(panelACargar, gbc_panelACargar);
 		
+		JButton btnNewButton_1 = new JButton("Guardar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (FichaEstudianteView f : vm) {
+					if(f.guardar().getValoracion() != -1 && f.guardar().getId() != 0)
+						ValoracionMateriaController.save(f.guardar());
+					else if(f.guardar().getValoracion() != -1 && f.guardar().getId() == 0)
+						ValoracionMateriaController.insert(f.guardar());
+					System.out.println(f.toString()+" "+f.guardar().getValoracion()+" "+f.guardar().getId());
+				}
+			}
+		});
+		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.gridwidth = 3;
+		gbc_btnNewButton_1.insets = new Insets(10, 0, 0, 5);
+		gbc_btnNewButton_1.gridx = 0;
+		gbc_btnNewButton_1.gridy = 4;
+		this.add(btnNewButton_1, gbc_btnNewButton_1);
 		
 		
 		llenarMateria();
@@ -116,7 +148,8 @@ public class MateriasCalificacionesView extends JPanel {
 
 	private void cargarAlumnos() {
 		List<Estudiante> lista = EstudianteController.findAll();
-		List<FichaEstudianteView> vm = new ArrayList<FichaEstudianteView>();
+		this.panelACargar.removeAll();
+		vm = new ArrayList<FichaEstudianteView>();
 		int cont = 3;
 		for (Estudiante estudiante : lista) {
 			FichaEstudianteView estudiante1 = new FichaEstudianteView(estudiante, (Materia)jcbMateria.getSelectedItem(), (Profesor)jcbProfesor.getSelectedItem());
@@ -126,28 +159,14 @@ public class MateriasCalificacionesView extends JPanel {
 			gbc_panel.fill = GridBagConstraints.BOTH;
 			gbc_panel.gridx = 0;
 			gbc_panel.gridy = cont;
-			add(estudiante1, gbc_panel);
+			panelACargar.add(estudiante1, gbc_panel);
 			cont++;
 			this.repaint();
 			this.revalidate();
 			vm.add(estudiante1);
+//			System.out.println(vm.toString());
 
 		}
-		JButton btnNewButton_1 = new JButton("Guardar");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				for (FichaEstudianteView fichaEstudianteView : vm) {
-					if(fichaEstudianteView.guardar() != null)
-						ValoracionMateriaController.save(fichaEstudianteView.guardar());
-				}
-			}
-		});
-		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.gridwidth = 3;
-		gbc_btnNewButton_1.insets = new Insets(10, 0, 0, 5);
-		gbc_btnNewButton_1.gridx = 0;
-		gbc_btnNewButton_1.gridy = cont;
-		this.add(btnNewButton_1, gbc_btnNewButton_1);
+		
 	}
 }

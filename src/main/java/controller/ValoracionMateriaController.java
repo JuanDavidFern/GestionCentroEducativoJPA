@@ -34,4 +34,13 @@ public class ValoracionMateriaController {
 		em.getTransaction().commit();
 		em.close();
 	}
+	
+	public static void insert(Valoracionmateria m) {
+		EntityManager em = entityManagerFactory.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(m);
+		System.out.println("He realizado la inserccion");
+		em.getTransaction().commit();
+		em.close();
+	}
 }
