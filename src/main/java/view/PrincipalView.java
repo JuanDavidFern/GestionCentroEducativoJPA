@@ -4,10 +4,6 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.border.EmptyBorder;
-
-
 public class PrincipalView extends JFrame {
 
 	private JPanel contentPane;
@@ -34,11 +30,10 @@ public class PrincipalView extends JFrame {
 	public PrincipalView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-		JTabbedPane tabPanel = new JTabbedPane();		
-		
-		tabPanel.addTab("Califiaciones", new MateriasCalificacionesView());
 
-		setContentPane(tabPanel);
+		JPanel p = new MateriasCalificacionesView();
+
+		add(p);
 	}
 
 }

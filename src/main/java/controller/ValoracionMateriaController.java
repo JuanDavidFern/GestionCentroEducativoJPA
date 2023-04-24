@@ -26,7 +26,7 @@ public class ValoracionMateriaController {
 	}
 	
 	
-	public static void save(Valoracionmateria m) {
+	public static void update(Valoracionmateria m) {
 		EntityManager em = entityManagerFactory.createEntityManager();
 		em.getTransaction().begin();
 		em.merge(m);

@@ -111,7 +111,7 @@ public class MateriasCalificacionesView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				for (FichaEstudianteView f : vm) {
 					if(f.guardar().getValoracion() != -1 && f.guardar().getId() != 0)
-						ValoracionMateriaController.save(f.guardar());
+						ValoracionMateriaController.update(f.guardar());
 					else if(f.guardar().getValoracion() != -1 && f.guardar().getId() == 0)
 						ValoracionMateriaController.insert(f.guardar());
 					System.out.println(f.toString()+" "+f.guardar().getValoracion()+" "+f.guardar().getId());
