@@ -164,7 +164,6 @@ public class MateriasCalificacionesView extends JPanel {
 			this.repaint();
 			this.revalidate();
 			vm.add(estudiante1);
-//			System.out.println(vm.toString());
 
 		}
 		
