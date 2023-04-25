@@ -10,9 +10,11 @@ import javax.swing.border.EmptyBorder;
 import controller.EstudianteController;
 import controller.MateriaController;
 import controller.ProfesorController;
+import controller.ValoracionMateriaController;
 import model.Estudiante;
 import model.Materia;
 import model.Profesor;
+import model.Valoracionmateria;
 
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -55,6 +57,8 @@ public class Principal2 extends JFrame {
 	private List<Estudiante> estudiantes = EstudianteController.findAll();
 	private DefaultListModel<Estudiante> listModelEstudiantes2 = null;
 	private JList jlistEstudiantes2;
+	private List<Estudiante> estudiantesParaGuardar = new ArrayList<>();
+	private JButton btnNewButton_4;
 
 	/**
 	 * Launch the application.
@@ -83,7 +87,7 @@ public class Principal2 extends JFrame {
 
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0 };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0 };
 		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0 };
 //		gbl_contentPane.columnWidths = new int[]{0};
 //		gbl_contentPane.rowHeights = new int[]{0};
@@ -140,6 +144,11 @@ public class Principal2 extends JFrame {
 		contentPane.add(jcbNota, gbc_jcbNota);
 
 		btnActualizar = new JButton("Actualizar");
+		btnActualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cambiarTodo2();
+			}
+		});
 		GridBagConstraints gbc_btnActualizar = new GridBagConstraints();
 		gbc_btnActualizar.insets = new Insets(0, 0, 5, 0);
 		gbc_btnActualizar.anchor = GridBagConstraints.EAST;
@@ -149,6 +158,7 @@ public class Principal2 extends JFrame {
 
 		panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.insets = new Insets(0, 0, 5, 0);
 		gbc_panel.gridwidth = 2;
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 0;
@@ -175,10 +185,10 @@ public class Principal2 extends JFrame {
 		gbc_lblNewLabel_4.gridx = 8;
 		gbc_lblNewLabel_4.gridy = 0;
 		panel.add(lblNewLabel_4, gbc_lblNewLabel_4);
-		
+
 		jlistEstudiantes = new JList(this.getDefaultListModel());
 		jlistEstudiantes.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		
+
 		jlistEstudiantes2 = new JList(this.getDefaultListModel2());
 		jlistEstudiantes2.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
@@ -190,7 +200,6 @@ public class Principal2 extends JFrame {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		panel.add(scrollPane, gbc_scrollPane);
-		
 
 		panel_1 = new JPanel();
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
@@ -262,25 +271,37 @@ public class Principal2 extends JFrame {
 		gbc_scrollPane_1.gridy = 1;
 		panel.add(scrollPane_1, gbc_scrollPane_1);
 
+		btnNewButton_4 = new JButton("Guardá");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				guardar();
+			}
+		});
+		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
+		gbc_btnNewButton_4.gridx = 1;
+		gbc_btnNewButton_4.gridy = 5;
+		contentPane.add(btnNewButton_4, gbc_btnNewButton_4);
+
 		llenarNota();
 		llenarMateria();
 		llenarProfesor();
 		agregarEstudiantes();
 
 	}
-	
-	private void agregarEstudiantes () {
+
+	private void agregarEstudiantes() {
 		for (int i = 0; i < estudiantes.size(); i++) {
 			this.listModelEstudiantes.addElement(this.estudiantes.get(i));
 		}
-		
+
 	}
-	private DefaultListModel getDefaultListModel2 () {
+
+	private DefaultListModel getDefaultListModel2() {
 		this.listModelEstudiantes2 = new DefaultListModel<Estudiante>();
 		return this.listModelEstudiantes2;
 	}
-	
-	private DefaultListModel getDefaultListModel () {
+
+	private DefaultListModel getDefaultListModel() {
 		this.listModelEstudiantes = new DefaultListModel<Estudiante>();
 		return this.listModelEstudiantes;
 	}
@@ -304,7 +325,7 @@ public class Principal2 extends JFrame {
 			jcbNota.addItem(Float.parseFloat(i + ""));
 		}
 	}
-	
+
 	private void cambiarSeleccionados() {
 		List<Estudiante> l = jlistEstudiantes.getSelectedValuesList();
 		this.listModelEstudiantes2.addAll(l);
@@ -312,7 +333,7 @@ public class Principal2 extends JFrame {
 			this.listModelEstudiantes.removeElementAt(this.jlistEstudiantes.getSelectedIndices()[i]);
 		}
 	}
-	
+
 	private void cambiarSeleccionados2() {
 		List<Estudiante> l = jlistEstudiantes2.getSelectedValuesList();
 		this.listModelEstudiantes.addAll(l);
@@ -320,23 +341,51 @@ public class Principal2 extends JFrame {
 			this.listModelEstudiantes2.removeElementAt(this.jlistEstudiantes2.getSelectedIndices()[i]);
 		}
 	}
-	
+
 	private void cambiarTodo() {
-		Object[] a = listModelEstudiantes.toArray();
-		for (Object object : a) {
-			listModelEstudiantes2.addElement((Estudiante)object);
-		}
+//		Object[] a = listModelEstudiantes.toArray();
+//		for (Object object : a) {
+//			listModelEstudiantes2.addElement((Estudiante)object);
+//		}
 		listModelEstudiantes.removeAllElements();
-		
-		
-	}
-	private void cambiarTodo2() {
-		Object[] a = listModelEstudiantes2.toArray();
-		for (Object object : a) {
-			listModelEstudiantes.addElement((Estudiante)object);
-		}
 		listModelEstudiantes2.removeAllElements();
-			
+		listModelEstudiantes2.addAll(estudiantes);
+
+	}
+
+	private void cambiarTodo2() {
+//		Object[] a = listModelEstudiantes2.toArray();
+//		for (Object object : a) {
+//			listModelEstudiantes.addElement((Estudiante)object);
+//		}
+//		listModelEstudiantes2.removeAllElements();
+		listModelEstudiantes2.removeAllElements();
+		listModelEstudiantes.removeAllElements();
+		listModelEstudiantes.addAll(estudiantes);
+
+	}
+
+	private void guardar() {
+		for (int i = 0; i < listModelEstudiantes2.size(); i++) {
+			estudiantesParaGuardar.add(listModelEstudiantes2.getElementAt(i));
+		}
+		for (Estudiante estudiante : estudiantesParaGuardar) {
+			if (ValoracionMateriaController.notaEstudianteMateriaProfesor(estudiante,
+					(Profesor) jcbProfesor.getSelectedItem(), (Materia) jcbMateria.getSelectedItem()) != null) {
+				Valoracionmateria v = ValoracionMateriaController.notaEstudianteMateriaProfesor(estudiante,
+						(Profesor) jcbProfesor.getSelectedItem(), (Materia) jcbMateria.getSelectedItem());
+				v.setValoracion((float) jcbNota.getSelectedItem());
+				ValoracionMateriaController.update(v);
+			}else {
+				Valoracionmateria v = new Valoracionmateria();
+				v.setEstudiante(estudiante);
+				v.setMateria((Materia) jcbMateria.getSelectedItem());
+				v.setProfesor((Profesor) jcbProfesor.getSelectedItem());
+				v.setValoracion((float) jcbNota.getSelectedItem());
+				ValoracionMateriaController.insert(v);
+			}
+
+		}
 	}
 
 }

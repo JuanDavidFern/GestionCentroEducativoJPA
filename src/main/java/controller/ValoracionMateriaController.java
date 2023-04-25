@@ -26,19 +26,19 @@ public class ValoracionMateriaController {
 	}
 	
 	
-	public static void update(Valoracionmateria m) {
+	public static void update(Valoracionmateria v) {
 		EntityManager em = entityManagerFactory.createEntityManager();
 		em.getTransaction().begin();
-		em.merge(m);
+		em.merge(v);
 		System.out.println("He realizado la modificacion");
 		em.getTransaction().commit();
 		em.close();
 	}
 	
-	public static void insert(Valoracionmateria m) {
+	public static void insert(Valoracionmateria v) {
 		EntityManager em = entityManagerFactory.createEntityManager();
 		em.getTransaction().begin();
-		em.persist(m);
+		em.persist(v);
 		System.out.println("He realizado la inserccion");
 		em.getTransaction().commit();
 		em.close();
