@@ -58,7 +58,7 @@ public class Principal2 extends JFrame {
 	private DefaultListModel<Estudiante> listModelEstudiantes2 = null;
 	private JList jlistEstudiantes2;
 	private List<Estudiante> estudiantesParaGuardar = new ArrayList<>();
-	private JButton btnNewButton_4;
+	private JButton btnguardar;
 
 	/**
 	 * Launch the application.
@@ -271,8 +271,8 @@ public class Principal2 extends JFrame {
 		gbc_scrollPane_1.gridy = 1;
 		panel.add(scrollPane_1, gbc_scrollPane_1);
 
-		btnNewButton_4 = new JButton("Guardá");
-		btnNewButton_4.addActionListener(new ActionListener() {
+		btnguardar = new JButton("Guardá");
+		btnguardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				guardar();
 			}
@@ -280,7 +280,7 @@ public class Principal2 extends JFrame {
 		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
 		gbc_btnNewButton_4.gridx = 1;
 		gbc_btnNewButton_4.gridy = 5;
-		contentPane.add(btnNewButton_4, gbc_btnNewButton_4);
+		contentPane.add(btnguardar, gbc_btnNewButton_4);
 
 		llenarNota();
 		llenarMateria();
@@ -290,9 +290,8 @@ public class Principal2 extends JFrame {
 	}
 
 	private void agregarEstudiantes() {
-		for (int i = 0; i < estudiantes.size(); i++) {
-			this.listModelEstudiantes.addElement(this.estudiantes.get(i));
-		}
+		listModelEstudiantes.removeAllElements();
+		listModelEstudiantes.addAll(estudiantes);
 
 	}
 
@@ -335,8 +334,7 @@ public class Principal2 extends JFrame {
 	}
 
 	private void cambiarSeleccionados2() {
-		List<Estudiante> l = jlistEstudiantes2.getSelectedValuesList();
-		this.listModelEstudiantes.addAll(l);
+		this.listModelEstudiantes.addAll(jlistEstudiantes2.getSelectedValuesList());
 		for (int i = this.jlistEstudiantes2.getSelectedIndices().length - 1; i >= 0; i--) {
 			this.listModelEstudiantes2.removeElementAt(this.jlistEstudiantes2.getSelectedIndices()[i]);
 		}
@@ -350,6 +348,7 @@ public class Principal2 extends JFrame {
 		listModelEstudiantes.removeAllElements();
 		listModelEstudiantes2.removeAllElements();
 		listModelEstudiantes2.addAll(estudiantes);
+		
 
 	}
 
@@ -366,18 +365,18 @@ public class Principal2 extends JFrame {
 	}
 
 	private void guardar() {
+		
 		for (int i = 0; i < listModelEstudiantes2.size(); i++) {
 			estudiantesParaGuardar.add(listModelEstudiantes2.getElementAt(i));
 		}
 		for (Estudiante estudiante : estudiantesParaGuardar) {
-			if (ValoracionMateriaController.notaEstudianteMateriaProfesor(estudiante,
-					(Profesor) jcbProfesor.getSelectedItem(), (Materia) jcbMateria.getSelectedItem()) != null) {
-				Valoracionmateria v = ValoracionMateriaController.notaEstudianteMateriaProfesor(estudiante,
-						(Profesor) jcbProfesor.getSelectedItem(), (Materia) jcbMateria.getSelectedItem());
+			Valoracionmateria v = ValoracionMateriaController.notaEstudianteMateriaProfesor(estudiante,
+					(Profesor) jcbProfesor.getSelectedItem(), (Materia) jcbMateria.getSelectedItem());
+			if (v != null) {
 				v.setValoracion((float) jcbNota.getSelectedItem());
 				ValoracionMateriaController.update(v);
 			}else {
-				Valoracionmateria v = new Valoracionmateria();
+				v = new Valoracionmateria();
 				v.setEstudiante(estudiante);
 				v.setMateria((Materia) jcbMateria.getSelectedItem());
 				v.setProfesor((Profesor) jcbProfesor.getSelectedItem());
