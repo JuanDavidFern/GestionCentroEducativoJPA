@@ -349,7 +349,6 @@ public class PanelComodin extends JPanel {
 		setDNI(e.getDni());
 		setEmail(e.getEmail());
 		setTelefono(e.getTelefono());
-		es = e;
 	}
 
 	
