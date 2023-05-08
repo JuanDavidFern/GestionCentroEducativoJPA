@@ -285,15 +285,11 @@ public class Principal2 extends JFrame {
 		llenarNota();
 		llenarMateria();
 		llenarProfesor();
-		agregarEstudiantes();
+		cambiarTodo2();
 
 	}
 
-	private void agregarEstudiantes() {
-		listModelEstudiantes.removeAllElements();
-		listModelEstudiantes.addAll(estudiantes);
-
-	}
+	
 
 	private DefaultListModel getDefaultListModel2() {
 		this.listModelEstudiantes2 = new DefaultListModel<Estudiante>();
@@ -306,22 +302,20 @@ public class Principal2 extends JFrame {
 	}
 
 	private void llenarMateria() {
-		List<Materia> lista = MateriaController.findAll();
-		for (Materia materia : lista) {
+		for (Materia materia : MateriaController.findAll()) {
 			jcbMateria.addItem(materia);
 		}
 	}
 
 	private void llenarProfesor() {
-		List<Profesor> lista = ProfesorController.findAll();
-		for (Profesor profesor : lista) {
+		for (Profesor profesor : ProfesorController.findAll()) {
 			jcbProfesor.addItem(profesor);
 		}
 	}
 
 	public static void llenarNota() {
-		for (int i = 0; i < 11; i++) {
-			jcbNota.addItem(Float.parseFloat(i + ""));
+		for (float i = 0; i < 11; i++) {
+			jcbNota.addItem(i);
 		}
 	}
 
@@ -348,7 +342,6 @@ public class Principal2 extends JFrame {
 		listModelEstudiantes.removeAllElements();
 		listModelEstudiantes2.removeAllElements();
 		listModelEstudiantes2.addAll(estudiantes);
-		
 
 	}
 
@@ -365,7 +358,7 @@ public class Principal2 extends JFrame {
 	}
 
 	private void guardar() {
-		
+		estudiantesParaGuardar.removeAll(estudiantesParaGuardar);
 		for (int i = 0; i < listModelEstudiantes2.size(); i++) {
 			estudiantesParaGuardar.add(listModelEstudiantes2.getElementAt(i));
 		}
@@ -375,7 +368,7 @@ public class Principal2 extends JFrame {
 			if (v != null) {
 				v.setValoracion((float) jcbNota.getSelectedItem());
 				ValoracionMateriaController.update(v);
-			}else {
+			} else {
 				v = new Valoracionmateria();
 				v.setEstudiante(estudiante);
 				v.setMateria((Materia) jcbMateria.getSelectedItem());
@@ -383,8 +376,29 @@ public class Principal2 extends JFrame {
 				v.setValoracion((float) jcbNota.getSelectedItem());
 				ValoracionMateriaController.insert(v);
 			}
-
 		}
 	}
+//	Para fecha
+//	SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
+//    for (Inquilino inquilino : l) {
+//        System.out.println(inquilino.toString());
+//        try {
+//            if (!jtfFIni.getText().isEmpty()) {
+//                inquilino.setFechaInicioAlquiler(sfd.parse(jtfFIni.getText()));
+//            } else {
+//                inquilino.setFechaInicioAlquiler(null);
+//            }
+//
+//            if (!jtfFFin.getText().isEmpty()) {
+//                inquilino.setFechaFinAlquiler(sfd.parse(jtfFFin.getText()));
+//            } else {
+//                inquilino.setFechaFinAlquiler(null);
+//            }
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        InquilinoController.insert(inquilino);
+//    }
 
 }

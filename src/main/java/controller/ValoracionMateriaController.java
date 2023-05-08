@@ -43,4 +43,37 @@ public class ValoracionMateriaController {
 		em.getTransaction().commit();
 		em.close();
 	}
+	
+	  /**
+     * 
+     * @param o
+     */
+    public static void delete(Valoracionmateria v) {
+        System.out.println(v.toString());
+        EntityManager em = entityManagerFactory.createEntityManager();
+        em.getTransaction().begin();
+        em.remove(em.merge(v));
+        System.out.println("HECHO");
+        em.getTransaction().commit();
+        em.close();
+    }
+	
+//    public int getId (Estudiante e) {
+//        Materia m = (Materia) jcbMateria.getSelectedItem();
+//        List<Valoracionmateria> v = m.getValoracionmaterias();
+//        List<Valoracionmateria> v1 = ((Profesor) jcbProfesor.getSelectedItem()).getValoracionmaterias();
+//        List<Valoracionmateria> v2 = e.getValoracionmaterias();
+//
+//        for (int i = 0; i < v.size(); i++) {
+//            for (int j = 0; j < v1.size(); j++) {
+//                for (int j2 = 0; j2 < v2.size(); j2++) {
+//                    if(v.get(i).getId() == v1.get(j).getId() && v.get(i).getId() == v2.get(j2).getId()) {
+//                        return v.get(i).getId();
+//                    }
+//                }
+//            }
+//        }
+//
+//        return 0;
+//    }
 }
